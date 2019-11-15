@@ -1,15 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title>模板</title>
-<meta name="Generator" content="Vim/8.1">
-<meta name="plugin-version" content="vim7.4_v2">
-<meta name="syntax" content="cpp">
-<meta name="settings" content="number_lines,use_css,pre_wrap,no_foldcolumn,expand_tabs,line_ids,prevent_copy=">
-<meta name="colorscheme" content="none">
 <style type="text/css">
-<!--
 pre { white-space: pre-wrap; font-family: monospace; color: #000000; background-color: #ffffff; }
 body { font-family: monospace; color: #000000; background-color: #ffffff; }
 * { font-size: 1em; }
@@ -20,26 +13,18 @@ body { font-family: monospace; color: #000000; background-color: #ffffff; }
 .Constant { color: #ff00ff; }
 .Special { color: #6a5acd; }
 .Statement { color: #a52a2a; font-weight: bold; }
--->
 </style>
 
 <script type='text/javascript'>
-<!--
-
-/* function to open any folds containing a jumped-to line before jumping to it */
 function JumpToLine()
 {
   var lineNum;
   lineNum = window.location.hash;
-  lineNum = lineNum.substr(1); /* strip off '#' */
-
+  lineNum = lineNum.substr(1);
   if (lineNum.indexOf('L') == -1) {
     lineNum = 'L'+lineNum;
   }
   lineElem = document.getElementById(lineNum);
-  /* Always jump to new location even if the line was hidden inside a fold, or
-   * we corrected the raw number to a line ID.
-   */
   if (lineElem) {
     lineElem.scrollIntoView(true);
   }
@@ -48,8 +33,6 @@ function JumpToLine()
 if ('onhashchange' in window) {
   window.onhashchange = JumpToLine;
 }
-
--->
 </script>
 </head>
 <body onload='JumpToLine();'>
@@ -594,11 +577,54 @@ if ('onhashchange' in window) {
 <span id="L538" class="LineNr">538 </span>    <span class="PreProc">#undef LL</span>
 <span id="L539" class="LineNr">539 </span>}
 <span id="L540" class="LineNr">540 </span>
-<span id="L541" class="LineNr">541 </span><span class="Type">int</span> main() {
-<span id="L542" class="LineNr">542 </span>    FastPower_LuoguP1226 :: MAIN();
-<span id="L543" class="LineNr">543 </span>    <span class="Statement">return</span> <span class="Constant">0</span>;
-<span id="L544" class="LineNr">544 </span>}
+<span id="L541" class="LineNr">541 </span><span class="Type">namespace</span> SSSP_LuoguP4779 {
+<span id="L542" class="LineNr">542 </span>    <span class="Type">const</span> <span class="Type">int</span> INF = <span class="Constant">0x3f3f3f3f</span>, MAXN = <span class="Constant">400000</span>;
+<span id="L543" class="LineNr">543 </span>    <span class="Type">struct</span> EDGE {
+<span id="L544" class="LineNr">544 </span>        <span class="Type">int</span> nxt, to, val;
+<span id="L545" class="LineNr">545 </span>    } edge[MAXN];
+<span id="L546" class="LineNr">546 </span>    <span class="Type">int</span> n, m, S, cnt, dis[MAXN], head[MAXN];
+<span id="L547" class="LineNr">547 </span>    <span class="Type">bool</span> vis[MAXN];
+<span id="L548" class="LineNr">548 </span>    <span class="Type">inline</span> <span class="Type">void</span> addedge(<span class="Type">int</span> u, <span class="Type">int</span> v, <span class="Type">int</span> val) {
+<span id="L549" class="LineNr">549 </span>        edge[++cnt].to = v; edge[cnt].val = val; edge[cnt].nxt = head[u]; head[u] = cnt;
+<span id="L550" class="LineNr">550 </span>    }
+<span id="L551" class="LineNr">551 </span>    <span class="Type">inline</span> <span class="Type">void</span> dijkstra(<span class="Type">int</span> S) {
+<span id="L552" class="LineNr">552 </span>        priority_queue&lt;pair&lt;<span class="Type">int</span>, <span class="Type">int</span>&gt; &gt; Q;
+<span id="L553" class="LineNr">553 </span>        memset(dis, INF, <span class="Statement">sizeof</span>(dis));
+<span id="L554" class="LineNr">554 </span>        Q.push(make_pair(<span class="Constant">0</span>, S));
+<span id="L555" class="LineNr">555 </span>        dis[S] = <span class="Constant">0</span>;
+<span id="L556" class="LineNr">556 </span>        <span class="Statement">while</span> (!Q.empty()) {
+<span id="L557" class="LineNr">557 </span>            <span class="Type">int</span> u = Q.top().second;
+<span id="L558" class="LineNr">558 </span>            Q.pop();
+<span id="L559" class="LineNr">559 </span>            <span class="Statement">if</span> (vis[u]) <span class="Statement">continue</span>;
+<span id="L560" class="LineNr">560 </span>            vis[u] = <span class="Constant">1</span>;
+<span id="L561" class="LineNr">561 </span>            <span class="Statement">for</span> (<span class="Type">int</span> i = head[u]; ~i; i = edge[i].nxt) {
+<span id="L562" class="LineNr">562 </span>                <span class="Type">int</span> v = edge[i].to;
+<span id="L563" class="LineNr">563 </span>                <span class="Statement">if</span> (dis[v] &gt; dis[u] + edge[i].val) {
+<span id="L564" class="LineNr">564 </span>                    dis[v] = dis[u] + edge[i].val;
+<span id="L565" class="LineNr">565 </span>                    Q.push(make_pair(-dis[v], v));
+<span id="L566" class="LineNr">566 </span>                }
+<span id="L567" class="LineNr">567 </span>            }
+<span id="L568" class="LineNr">568 </span>        }
+<span id="L569" class="LineNr">569 </span>    }
+<span id="L570" class="LineNr">570 </span>    <span class="Type">inline</span> <span class="Type">void</span> MAIN() {
+<span id="L571" class="LineNr">571 </span>        ios :: sync_with_stdio(<span class="Constant">0</span>), cin.tie(<span class="Constant">0</span>), cout.tie(<span class="Constant">0</span>);
+<span id="L572" class="LineNr">572 </span>        n = read(); m = read(); S = read();
+<span id="L573" class="LineNr">573 </span>        memset(head, -<span class="Constant">1</span>, <span class="Statement">sizeof</span>(head));
+<span id="L574" class="LineNr">574 </span>        <span class="Statement">for</span> (<span class="Type">int</span> i = <span class="Constant">1</span>; i &lt;= m; i++) {
+<span id="L575" class="LineNr">575 </span>            <span class="Type">int</span> u = read(), v = read(), val = read();
+<span id="L576" class="LineNr">576 </span>            addedge(u, v, val);
+<span id="L577" class="LineNr">577 </span>        }
+<span id="L578" class="LineNr">578 </span>        dijkstra(S);
+<span id="L579" class="LineNr">579 </span>        <span class="Statement">for</span> (<span class="Type">int</span> i = <span class="Constant">1</span>; i &lt;= n; i++)
+<span id="L580" class="LineNr">580 </span>            cout &lt;&lt; dis[i] &lt;&lt; <span class="Constant">&quot; &quot;</span>;
+<span id="L581" class="LineNr">581 </span>        cout &lt;&lt; <span class="Special">'\n'</span>;
+<span id="L582" class="LineNr">582 </span>    }
+<span id="L583" class="LineNr">583 </span>}
+<span id="L584" class="LineNr">584 </span>
+<span id="L585" class="LineNr">585 </span><span class="Type">int</span> main() {
+<span id="L586" class="LineNr">586 </span>    SSSP_LuoguP4779 :: MAIN();
+<span id="L587" class="LineNr">587 </span>    <span class="Statement">return</span> <span class="Constant">0</span>;
+<span id="L588" class="LineNr">588 </span>}
 </pre>
 </body>
 </html>
-<!-- vim: set foldmethod=manual : -->
